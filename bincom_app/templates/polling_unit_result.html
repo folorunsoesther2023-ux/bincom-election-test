@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Q1: Result for an Individual Polling Unit</h1>
+<p>Select an LGA, then a Ward, then a Polling Unit to view its results.</p>
+
+<form method="get">
+    <label for="lga_id">Local Government Area</label>
+    <select name="lga_id" id="lga_id" onchange="this.form.submit()">
+        <option value="">-- Select LGA --</option>
+        {% for lga in lgas %}
+            <option value="{{ lga.lga_id }}" {% if selected_lga == lga.lga_id %}selected{% endif %}>
+                {{ lga.lga_name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    {% if wards %}
+    <label for="ward_id">Ward</label>
+    <select name="ward_id" id="ward_id" onchange="this.form.submit()">
+        <option value="">-- Select Ward --</option>
+        {% for ward in wards %}
+            <option value="{{ ward.ward_id }}" {% if selected_ward == ward.ward_id %}selected{% endif %}>
+                {{ ward.ward_name }}
+            </option>
+        {% endfor %}
+    </select>
+    {% endif %}
+
+    {% if polling_units %}
+    <label for="polling_unit_uniqueid">Polling Unit</label>
+    <select name="polling_unit_uniqueid" id="polling_unit_uniqueid" onchange="this.form.submit()">
+        <option value="">-- Select Polling Unit --</option>
+        {% for pu in polling_units %}
+            <option value="{{ pu.uniqueid }}" {% if selected_pu == pu.uniqueid %}selected{% endif %}>
+                {{ pu.polling_unit_name }} ({{ pu.polling_unit_number }})
+            </option>
+        {% endfor %}
+    </select>
+    {% endif %}
+</form>
+
+{% if pu_info %}
+    <h2 style="margin-top:24px;">Results for {{ pu_info.polling_unit_name }}</h2>
+    {% if results %}
+    <table>
+        <tr><th>Party</th><th>Score</th></tr>
+        {% for r in results %}
+        <tr><td>{{ r.party_abbreviation }}</td><td>{{ r.party_score }}</td></tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No results have been recorded for this polling unit yet.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

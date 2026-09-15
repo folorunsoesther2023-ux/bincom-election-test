@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Q3: Add Results for a New Polling Unit</h1>
+<p>Select the polling unit and enter the score for each party.</p>
+
+<form method="post">
+    <label for="polling_unit_uniqueid">Polling Unit</label>
+    <select name="polling_unit_uniqueid" id="polling_unit_uniqueid" required>
+        <option value="">-- Select Polling Unit --</option>
+        {% for pu in polling_units %}
+            <option value="{{ pu.uniqueid }}">{{ pu.polling_unit_name }} (ID {{ pu.uniqueid }})</option>
+        {% endfor %}
+    </select>
+
+    <label for="entered_by_user">Your Name</label>
+    <input type="text" name="entered_by_user" id="entered_by_user" placeholder="e.g. Esther">
+
+    <h3 style="margin-top:20px;">Party Scores</h3>
+    {% for party in parties %}
+    <div class="party-row">
+        <label>{{ party.partyname }}</label>
+        <input type="number" name="score_{{ party.partyid }}" placeholder="Score" min="0">
+    </div>
+    {% endfor %}
+
+    <button type="submit">Save Results</button>
+</form>
+{% endblock %}

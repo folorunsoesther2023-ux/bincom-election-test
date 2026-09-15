@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Bincom Election Results{% endblock %}</title>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; background:#f4f6f8; margin:0; padding:0; }
+        header { background:#2d6a4f; color:#fff; padding:16px 24px; }
+        header a { color:#fff; text-decoration:none; margin-right:18px; font-weight:bold; }
+        header a:hover { text-decoration:underline; }
+        .container { max-width:760px; margin:30px auto; background:#fff; padding:24px 28px;
+                     border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+        h1 { font-size:22px; color:#1b4332; }
+        label { display:block; margin-top:14px; font-weight:bold; font-size:14px; }
+        select, input[type=text], input[type=number] {
+            width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:4px;
+            box-sizing:border-box; font-size:14px;
+        }
+        button, input[type=submit] {
+            margin-top:18px; background:#2d6a4f; color:#fff; border:none; padding:10px 18px;
+            border-radius:4px; cursor:pointer; font-size:14px;
+        }
+        button:hover, input[type=submit]:hover { background:#1b4332; }
+        table { width:100%; border-collapse:collapse; margin-top:18px; }
+        th, td { border:1px solid #ddd; padding:8px 10px; text-align:left; font-size:14px; }
+        th { background:#e9f5ee; }
+        .flash { padding:10px 14px; border-radius:4px; margin-top:14px; font-size:14px; }
+        .flash.success { background:#d8f3dc; color:#1b4332; }
+        .flash.error { background:#fde2e2; color:#9b2226; }
+        .party-row { display:flex; gap:10px; align-items:center; margin-top:10px; }
+        .party-row label { width:120px; margin:0; }
+        .party-row input { flex:1; margin:0; }
+    </style>
+</head>
+<body>
+<header>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('polling_unit_result') }}">Q1: Polling Unit Result</a>
+    <a href="{{ url_for('lga_summed_result') }}">Q2: LGA Summed Result</a>
+    <a href="{{ url_for('new_polling_unit_result') }}">Q3: Add New Result</a>
+</header>
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

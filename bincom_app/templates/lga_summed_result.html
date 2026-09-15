@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Q2: Summed Result for an LGA</h1>
+<p>Select a Local Government Area to see the summed total of all its polling unit results
+   (calculated live from <code>announced_pu_results</code>, not the official LGA table).</p>
+
+<form method="get">
+    <label for="lga_id">Local Government Area</label>
+    <select name="lga_id" id="lga_id" onchange="this.form.submit()">
+        <option value="">-- Select LGA --</option>
+        {% for lga in lgas %}
+            <option value="{{ lga.lga_id }}" {% if selected_lga == lga.lga_id %}selected{% endif %}>
+                {{ lga.lga_name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+{% if selected_lga %}
+    <h2 style="margin-top:24px;">Summed Results for {{ lga_name }}</h2>
+    {% if summed_results %}
+    <table>
+        <tr><th>Party</th><th>Total Score</th></tr>
+        {% for r in summed_results %}
+        <tr><td>{{ r.party_abbreviation }}</td><td>{{ r.total_score }}</td></tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No results have been recorded for polling units in this LGA yet.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

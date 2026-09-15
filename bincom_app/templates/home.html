@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Bincom Election Result Viewer</h1>
+<p>Basic programming test solution &mdash; built with Flask + SQLite (converted from bincom_test.sql).</p>
+<ul>
+    <li><a href="{{ url_for('polling_unit_result') }}">Question 1: View result for a single polling unit</a></li>
+    <li><a href="{{ url_for('lga_summed_result') }}">Question 2: View summed total result for an LGA</a></li>
+    <li><a href="{{ url_for('new_polling_unit_result') }}">Question 3: Add results for a new polling unit</a></li>
+</ul>
+{% endblock %}
